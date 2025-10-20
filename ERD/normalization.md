@@ -103,8 +103,7 @@ Payment (
 
 **Analysis:**
 - **1NF**: All attributes are atomic
-- **2NF**: All attributes depend on payment_id
-- **3NF Issue Identified**: `amount` is redundant with `Booking.total_price`
+
 
 **Problem**: The `amount` should equal `Booking.total_price`, creating redundancy.
 
