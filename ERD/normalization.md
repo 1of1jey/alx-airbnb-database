@@ -76,14 +76,6 @@ This creates a **transitive dependency**: `booking_id → property_id → pricep
   - Creates an immutable financial record
 - **Cons**: Controlled redundancy
 
-**Recommended Solution**: **Keep `total_price`** (Option 2)
-
-**Justification**: In real-world e-commerce and booking systems, storing the actual transaction price is critical for:
-1. **Financial Integrity**: Prices change over time; we need to preserve what the customer actually paid
-2. **Promotions/Discounts**: The total may differ from simple calculations due to coupons, seasonal rates, etc.
-3. **Legal/Audit Requirements**: Transaction records must be immutable
-4. **Performance**: Calculating prices on every query is inefficient
-
 This is an example of **controlled denormalization** for business requirements.
 
 **Status**:  Keep as-is (justified denormalization)
