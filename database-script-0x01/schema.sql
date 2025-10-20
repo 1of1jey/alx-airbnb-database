@@ -267,3 +267,22 @@ JOIN User u ON p.host_id = u.user_id
 JOIN Location l ON p.location_id = l.location_id;
 
 COMMENT ON VIEW vw_property_details IS 'Complete property information with host and location details';
+
+
+-- View: Booking Summary
+CREATE OR REPLACE VIEW vw_booking_summary AS
+SELECT 
+    b.booking_id,
+    b.start_date,
+    b.end_date,
+    b.total_price,
+    b.status,
+    p.name AS property_name,
+    u.first_name || ' ' || u.last_name AS guest_name,
+    u.email AS guest_email,
+    b.created_at
+FROM Booking b
+JOIN Property p ON b.property_id = p.property_id
+JOIN User u ON b.user_id = u.user_id;
+
+COMMENT ON VIEW vw_booking_summary IS 'Booking information with property and guest details';
