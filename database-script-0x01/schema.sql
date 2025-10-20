@@ -240,3 +240,30 @@ CREATE INDEX idx_message_conversation ON Message(sender_id, recipient_id, sent_a
 -- Comments for Message table
 COMMENT ON TABLE Message IS 'Messages exchanged between users';
 COMMENT ON CONSTRAINT chk_different_users ON Message IS 'Sender and recipient must be different users';
+
+
+
+
+-- View: Property with Location Details
+CREATE OR REPLACE VIEW vw_property_details AS
+SELECT 
+    p.property_id,
+    p.name,
+    p.description,
+    p.pricepernight,
+    u.first_name || ' ' || u.last_name AS host_name,
+    u.email AS host_email,
+    l.street_address,
+    l.city,
+    l.state,
+    l.country,
+    l.postal_code,
+    l.latitude,
+    l.longitude,
+    p.created_at,
+    p.updated_at
+FROM Property p
+JOIN User u ON p.host_id = u.user_id
+JOIN Location l ON p.location_id = l.location_id;
+
+COMMENT ON VIEW vw_property_details IS 'Complete property information with host and location details';
