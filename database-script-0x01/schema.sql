@@ -55,3 +55,29 @@ CREATE INDEX idx_location_coords ON Location(latitude, longitude);
 COMMENT ON TABLE Location IS 'Normalized location data for properties';
 COMMENT ON COLUMN Location.latitude IS 'Latitude coordinate (-90 to 90)';
 COMMENT ON COLUMN Location.longitude IS 'Longitude coordinate (-180 to 180)';
+
+
+CREATE TABLE Property (
+    property_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    host_id UUID NOT NULL,
+    location_id UUID NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    pricepernight DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Foreign Keys
+    CONSTRAINT fk_property_host FOREIGN KEY (host_id) 
+        REFERENCES User(user_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
+    
+    CONSTRAINT fk_property_location FOREIGN KEY (location_id) 
+        REFERENCES Location(location_id) 
+        ON DELETE RESTRICT 
+        ON UPDATE CASCADE,
+    
+    -- Constraints
+    CONSTRAINT chk_pricepernight CHECK (pricepernight > 0)
+);
