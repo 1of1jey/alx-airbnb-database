@@ -103,3 +103,43 @@ CREATE TRIGGER trg_property_updated_at
 
 COMMENT ON TABLE Property IS 'Property listings created by hosts';
 COMMENT ON COLUMN Property.pricepernight IS 'Price per night in decimal format (must be positive)';
+
+
+
+CREATE TABLE Booking (
+    booking_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    property_id UUID NOT NULL,
+    user_id UUID NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    total_price DECIMAL(10, 2) NOT NULL,
+    status VARCHAR(20) NOT NULL CHECK (status IN ('pending', 'confirmed', 'canceled')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Foreign Keys
+    CONSTRAINT fk_booking_property FOREIGN KEY (property_id) 
+        REFERENCES Property(property_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
+    
+    CONSTRAINT fk_booking_user FOREIGN KEY (user_id) 
+        REFERENCES User(user_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
+    
+    -- Constraints
+    CONSTRAINT chk_booking_dates CHECK (end_date > start_date),
+    CONSTRAINT chk_total_price CHECK (total_price > 0)
+);
+
+-- Indexes for Booking table
+CREATE INDEX idx_booking_property ON Booking(property_id);
+CREATE INDEX idx_booking_user ON Booking(user_id);
+CREATE INDEX idx_booking_status ON Booking(status);
+CREATE INDEX idx_booking_dates ON Booking(start_date, end_date);
+CREATE INDEX idx_booking_created ON Booking(created_at);
+
+-- Comments for Booking table
+COMMENT ON TABLE Booking IS 'Stores all booking/reservation records';
+COMMENT ON COLUMN Booking.status IS 'Booking status: pending, confirmed, or canceled';
+COMMENT ON COLUMN Booking.total_price IS 'Total price for the entire booking period';
