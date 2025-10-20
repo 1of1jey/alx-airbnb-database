@@ -14,10 +14,9 @@ Triggers for automatic timestamp updates
 
 Database Structure
 Tables
-
 1. User
-   Stores all user accounts (guests, hosts, and administrators).
-   Columns:
+Stores all user accounts (guests, hosts, and administrators).
+Columns:
 
 user_id (UUID, PK) - Unique identifier
 first_name (VARCHAR) - User's first name
@@ -34,9 +33,10 @@ Primary key on user_id
 Unique index on email
 Index on role
 
+
 2. Location
-   Normalized location data for properties (3NF compliant).
-   Columns:
+Normalized location data for properties (3NF compliant).
+Columns:
 
 location_id (UUID, PK) - Unique identifier
 street_address (VARCHAR) - Street address
@@ -61,9 +61,10 @@ Constraints:
 Latitude must be between -90 and 90
 Longitude must be between -180 and 180
 
+
 3. Property
-   Property listings created by hosts.
-   Columns:
+Property listings created by hosts.
+Columns:
 
 property_id (UUID, PK) - Unique identifier
 host_id (UUID, FK) - References User(user_id)
@@ -94,9 +95,10 @@ Special Features:
 Auto-updating updated_at trigger
 Cascade delete when host is deleted
 
+
 4. Booking
-   Reservation records for properties.
-   Columns:
+Reservation records for properties.
+Columns:
 
 booking_id (UUID, PK) - Unique identifier
 property_id (UUID, FK) - References Property(property_id)
@@ -127,9 +129,10 @@ Belongs to Property
 Belongs to User (guest)
 Has one Payment
 
+
 5. Payment
-   Payment transaction records.
-   Columns:
+Payment transaction records.
+Columns:
 
 payment_id (UUID, PK) - Unique identifier
 booking_id (UUID, FK, UNIQUE) - References Booking(booking_id)
@@ -153,9 +156,10 @@ Relationships:
 
 Belongs to Booking (one-to-one)
 
+
 6. Review
-   Property reviews and ratings from guests.
-   Columns:
+Property reviews and ratings from guests.
+Columns:
 
 review_id (UUID, PK) - Unique identifier
 property_id (UUID, FK) - References Property(property_id)
@@ -182,9 +186,10 @@ Relationships:
 Belongs to Property
 Belongs to User
 
+
 7. Message
-   Messages exchanged between users.
-   Columns:
+Messages exchanged between users.
+Columns:
 
 message_id (UUID, PK) - Unique identifier
 sender_id (UUID, FK) - References User(user_id)
@@ -208,6 +213,7 @@ Relationships:
 
 Belongs to User (sender)
 Belongs to User (recipient)
+
 
 Database Views
 vw_property_details
@@ -243,31 +249,32 @@ Steps
 
 Create Database
 
-bash createdb airbnb_db
+bash   createdb airbnb_db
 
 Run Schema Script
 
-bash psql -d airbnb_db -f schema.sql
+bash   psql -d airbnb_db -f schema.sql
 
 Verify Installation
 
-sql -- Connect to database
-\c airbnb_db
-
--- List all tables
-\dt
-
--- View table structure
-\d User
-\d Property
+sql   -- Connect to database
+   \c airbnb_db
+   
+   -- List all tables
+   \dt
+   
+   -- View table structure
+   \d User
+   \d Property
 MySQL Adaptation
 If using MySQL instead of PostgreSQL, make these changes:
 
 Replace gen_random_uuid() with UUID()
 Replace VARCHAR with appropriate sizes
 Adjust TIMESTAMP to DATETIME if needed
-Replace regex check ~\* with REGEXP
+Replace regex check ~* with REGEXP
 Remove CASCADE keywords from DROP statements
+
 
 Key Features
 Security
@@ -298,6 +305,7 @@ Third Normal Form (3NF) compliant
 Normalized Location table
 Elimination of data redundancy
 Justified denormalization for business requirements (total_price, amount)
+
 
 Foreign Key Relationships
 User (1) ──────────< (Many) Property [host_id]
@@ -330,26 +338,26 @@ Consider query plans for large datasets
 Monitor slow query logs
 Add additional indexes based on actual usage patterns
 
+
 Maintenance
 Regular Tasks
 
 Vacuum (PostgreSQL): Reclaim storage
 
-sql VACUUM ANALYZE;
+sql   VACUUM ANALYZE;
 
 Index Maintenance: Rebuild if needed
 
-sql REINDEX DATABASE airbnb_db;
+sql   REINDEX DATABASE airbnb_db;
 
 Statistics Update: Keep query planner informed
 
-sql ANALYZE;
+sql   ANALYZE;
 Backup Strategy
 bash# Full backup
-pg*dump airbnb_db > backup*$(date +%Y%m%d).sql
+pg_dump airbnb_db > backup_$(date +%Y%m%d).sql
 
 # Restore
-
 psql airbnb_db < backup_20241020.sql
 
 Future Enhancements
