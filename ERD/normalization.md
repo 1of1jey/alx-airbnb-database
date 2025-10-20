@@ -69,12 +69,7 @@ This creates a **transitive dependency**: `booking_id → property_id → pricep
   - Can't handle discounts, promotions, or special pricing
 
 **Option 2 (Practical Denormalization)**: Keep `total_price` as a stored value
-- **Pros**: 
-  - Captures the actual price at booking time
-  - Handles discounts and promotions
-  - Better query performance
-  - Creates an immutable financial record
-- **Cons**: Controlled redundancy
+
 
 This is an example of **controlled denormalization** for business requirements.
 
