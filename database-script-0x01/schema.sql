@@ -4,10 +4,10 @@ DROP TABLE IF EXISTS Payment CASCADE;
 DROP TABLE IF EXISTS Booking CASCADE;
 DROP TABLE IF EXISTS Property CASCADE;
 DROP TABLE IF EXISTS Location CASCADE;
-DROP TABLE IF EXISTS User CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 
 
-CREATE TABLE User (
+CREATE TABLE users (
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
@@ -21,13 +21,13 @@ CREATE TABLE User (
     CONSTRAINT chk_email_format CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
 
-CREATE INDEX idx_user_email ON User(email);
-CREATE INDEX idx_user_role ON User(role);
+CREATE INDEX idx_user_email ON users(email);
+CREATE INDEX idx_user_role ON users(role);
 
-COMMENT ON TABLE User IS 'Stores all user accounts including guests, hosts, and administrators';
-COMMENT ON COLUMN User.user_id IS 'Unique identifier for each user';
-COMMENT ON COLUMN User.email IS 'User email address, must be unique';
-COMMENT ON COLUMN User.role IS 'User role: guest, host, or admin';
+COMMENT ON TABLE users IS 'Stores all user accounts including guests, hosts, and administrators';
+COMMENT ON COLUMN users.user_id IS 'Unique identifier for each user';
+COMMENT ON COLUMN users.email IS 'User email address, must be unique';
+COMMENT ON COLUMN users.role IS 'User role: guest, host, or admin';
 
 
 CREATE TABLE Location (
@@ -69,7 +69,7 @@ CREATE TABLE Property (
     
     -- Foreign Keys
     CONSTRAINT fk_property_host FOREIGN KEY (host_id) 
-        REFERENCES User(user_id) 
+        REFERENCES users(user_id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
     
@@ -123,7 +123,7 @@ CREATE TABLE Booking (
         ON UPDATE CASCADE,
     
     CONSTRAINT fk_booking_user FOREIGN KEY (user_id) 
-        REFERENCES User(user_id) 
+        REFERENCES users(user_id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
     
@@ -189,7 +189,7 @@ CREATE TABLE Review (
         ON UPDATE CASCADE,
     
     CONSTRAINT fk_review_user FOREIGN KEY (user_id) 
-        REFERENCES User(user_id) 
+        REFERENCES users(user_id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
     
@@ -219,12 +219,12 @@ CREATE TABLE Message (
     
     -- Foreign Keys
     CONSTRAINT fk_message_sender FOREIGN KEY (sender_id) 
-        REFERENCES User(user_id) 
+        REFERENCES users(user_id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
     
     CONSTRAINT fk_message_recipient FOREIGN KEY (recipient_id) 
-        REFERENCES User(user_id) 
+        REFERENCES users(user_id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE,
     
@@ -263,7 +263,7 @@ SELECT
     p.created_at,
     p.updated_at
 FROM Property p
-JOIN User u ON p.host_id = u.user_id
+JOIN users u ON p.host_id = u.user_id
 JOIN Location l ON p.location_id = l.location_id;
 
 COMMENT ON VIEW vw_property_details IS 'Complete property information with host and location details';
@@ -283,6 +283,6 @@ SELECT
     b.created_at
 FROM Booking b
 JOIN Property p ON b.property_id = p.property_id
-JOIN User u ON b.user_id = u.user_id;
+JOIN users u ON b.user_id = u.user_id;
 
 COMMENT ON VIEW vw_booking_summary IS 'Booking information with property and guest details';
