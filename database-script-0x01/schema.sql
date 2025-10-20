@@ -207,3 +207,27 @@ CREATE INDEX idx_review_created ON Review(created_at);
 COMMENT ON TABLE Review IS 'User reviews and ratings for properties';
 COMMENT ON COLUMN Review.rating IS 'Rating from 1 to 5 stars';
 COMMENT ON CONSTRAINT uq_user_property_review ON Review IS 'One review per user per property';
+
+
+
+CREATE TABLE Message (
+    message_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    sender_id UUID NOT NULL,
+    recipient_id UUID NOT NULL,
+    message_body TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Foreign Keys
+    CONSTRAINT fk_message_sender FOREIGN KEY (sender_id) 
+        REFERENCES User(user_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
+    
+    CONSTRAINT fk_message_recipient FOREIGN KEY (recipient_id) 
+        REFERENCES User(user_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
+    
+    -- Constraints
+    CONSTRAINT chk_different_users CHECK (sender_id != recipient_id)
+);
