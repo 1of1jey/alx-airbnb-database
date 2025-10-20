@@ -107,19 +107,7 @@ Property (
 
 ---
 
-### 3. Booking Table
-```sql
-Booking (
-    booking_id (PK),
-    property_id (FK),
-    user_id (FK),
-    start_date,
-    end_date,
-    total_price,
-    status,
-    created_at
-)
-```
+
 
 **Analysis:**
 -  **1NF**: All attributes are atomic
