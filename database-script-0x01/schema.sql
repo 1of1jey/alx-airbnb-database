@@ -231,3 +231,12 @@ CREATE TABLE Message (
     -- Constraints
     CONSTRAINT chk_different_users CHECK (sender_id != recipient_id)
 );
+
+CREATE INDEX idx_message_sender ON Message(sender_id);
+CREATE INDEX idx_message_recipient ON Message(recipient_id);
+CREATE INDEX idx_message_sent_at ON Message(sent_at);
+CREATE INDEX idx_message_conversation ON Message(sender_id, recipient_id, sent_at);
+
+-- Comments for Message table
+COMMENT ON TABLE Message IS 'Messages exchanged between users';
+COMMENT ON CONSTRAINT chk_different_users ON Message IS 'Sender and recipient must be different users';
