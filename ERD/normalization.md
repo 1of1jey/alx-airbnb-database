@@ -23,18 +23,7 @@ Location (
     postal_code,
     latitude,
     longitude
-)
 
-Property (
-    property_id (PK),
-    host_id (FK),
-    location_id (FK),
-    name,
-    description,
-    pricepernight,
-    created_at,
-    updated_at
-)
 ```
 
 **Benefits:**
