@@ -23,6 +23,7 @@ Location (
     postal_code,
     latitude,
     longitude
+)
 
 ```
 
