@@ -45,3 +45,13 @@ CREATE TABLE Location (
     CONSTRAINT chk_latitude CHECK (latitude >= -90 AND latitude <= 90),
     CONSTRAINT chk_longitude CHECK (longitude >= -180 AND longitude <= 180)
 );
+
+CREATE INDEX idx_location_city ON Location(city);
+CREATE INDEX idx_location_state ON Location(state);
+CREATE INDEX idx_location_country ON Location(country);
+CREATE INDEX idx_location_coords ON Location(latitude, longitude);
+
+-- Comments for Location table
+COMMENT ON TABLE Location IS 'Normalized location data for properties';
+COMMENT ON COLUMN Location.latitude IS 'Latitude coordinate (-90 to 90)';
+COMMENT ON COLUMN Location.longitude IS 'Longitude coordinate (-180 to 180)';
