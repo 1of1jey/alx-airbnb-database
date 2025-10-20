@@ -81,3 +81,22 @@ CREATE TABLE Property (
     -- Constraints
     CONSTRAINT chk_pricepernight CHECK (pricepernight > 0)
 );
+
+CREATE INDEX idx_property_host ON Property(host_id);
+CREATE INDEX idx_property_location ON Property(location_id);
+CREATE INDEX idx_property_price ON Property(pricepernight);
+CREATE INDEX idx_property_created ON Property(created_at);
+
+-- Trigger to auto-update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_property_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_property_updated_at
+    BEFORE UPDATE ON Property
+    FOR EACH ROW
+    EXECUTE FUNCTION update_property_updated_at();
