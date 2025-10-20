@@ -143,3 +143,31 @@ CREATE INDEX idx_booking_created ON Booking(created_at);
 COMMENT ON TABLE Booking IS 'Stores all booking/reservation records';
 COMMENT ON COLUMN Booking.status IS 'Booking status: pending, confirmed, or canceled';
 COMMENT ON COLUMN Booking.total_price IS 'Total price for the entire booking period';
+
+
+
+CREATE TABLE Payment (
+    payment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    booking_id UUID NOT NULL UNIQUE,
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    payment_method VARCHAR(50) NOT NULL CHECK (payment_method IN ('credit_card', 'paypal', 'stripe')),
+    
+    -- Foreign Keys
+    CONSTRAINT fk_payment_booking FOREIGN KEY (booking_id) 
+        REFERENCES Booking(booking_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
+    
+    -- Constraints
+    CONSTRAINT chk_payment_amount CHECK (amount > 0)
+);
+
+-- Indexes for Payment table
+CREATE INDEX idx_payment_booking ON Payment(booking_id);
+CREATE INDEX idx_payment_method ON Payment(payment_method);
+CREATE INDEX idx_payment_date ON Payment(payment_date);
+
+-- Comments for Payment table
+COMMENT ON TABLE Payment IS 'Payment transaction records for bookings';
+COMMENT ON COLUMN Payment.payment_method IS 'Payment method: credit_card, paypal, or stripe';
