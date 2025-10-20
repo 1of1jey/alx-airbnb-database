@@ -28,3 +28,20 @@ COMMENT ON TABLE User IS 'Stores all user accounts including guests, hosts, and 
 COMMENT ON COLUMN User.user_id IS 'Unique identifier for each user';
 COMMENT ON COLUMN User.email IS 'User email address, must be unique';
 COMMENT ON COLUMN User.role IS 'User role: guest, host, or admin';
+
+
+CREATE TABLE Location (
+    location_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    street_address VARCHAR(255),
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    postal_code VARCHAR(20),
+    latitude DECIMAL(10, 8),
+    longitude DECIMAL(11, 8),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Constraints
+    CONSTRAINT chk_latitude CHECK (latitude >= -90 AND latitude <= 90),
+    CONSTRAINT chk_longitude CHECK (longitude >= -180 AND longitude <= 180)
+);
