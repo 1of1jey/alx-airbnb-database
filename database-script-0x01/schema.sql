@@ -197,3 +197,13 @@ CREATE TABLE Review (
     CONSTRAINT chk_rating_range CHECK (rating >= 1 AND rating <= 5),
     CONSTRAINT uq_user_property_review UNIQUE (property_id, user_id)
 );
+
+CREATE INDEX idx_review_property ON Review(property_id);
+CREATE INDEX idx_review_user ON Review(user_id);
+CREATE INDEX idx_review_rating ON Review(rating);
+CREATE INDEX idx_review_created ON Review(created_at);
+
+-- Comments for Review table
+COMMENT ON TABLE Review IS 'User reviews and ratings for properties';
+COMMENT ON COLUMN Review.rating IS 'Rating from 1 to 5 stars';
+COMMENT ON CONSTRAINT uq_user_property_review ON Review IS 'One review per user per property';
