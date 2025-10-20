@@ -1,4 +1,4 @@
-
+***Database
 **Analysis:**
 -  **1NF**: All attributes are atomic
 -  **2NF**: All attributes depend on property_id
