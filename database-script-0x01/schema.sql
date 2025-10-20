@@ -171,3 +171,29 @@ CREATE INDEX idx_payment_date ON Payment(payment_date);
 -- Comments for Payment table
 COMMENT ON TABLE Payment IS 'Payment transaction records for bookings';
 COMMENT ON COLUMN Payment.payment_method IS 'Payment method: credit_card, paypal, or stripe';
+
+
+
+CREATE TABLE Review (
+    review_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    property_id UUID NOT NULL,
+    user_id UUID NOT NULL,
+    rating INTEGER NOT NULL,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Foreign Keys
+    CONSTRAINT fk_review_property FOREIGN KEY (property_id) 
+        REFERENCES Property(property_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
+    
+    CONSTRAINT fk_review_user FOREIGN KEY (user_id) 
+        REFERENCES User(user_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
+    
+    -- Constraints
+    CONSTRAINT chk_rating_range CHECK (rating >= 1 AND rating <= 5),
+    CONSTRAINT uq_user_property_review UNIQUE (property_id, user_id)
+);
