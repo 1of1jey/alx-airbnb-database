@@ -20,3 +20,11 @@ CREATE TABLE User (
     -- Constraints
     CONSTRAINT chk_email_format CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
+
+CREATE INDEX idx_user_email ON User(email);
+CREATE INDEX idx_user_role ON User(role);
+
+COMMENT ON TABLE User IS 'Stores all user accounts including guests, hosts, and administrators';
+COMMENT ON COLUMN User.user_id IS 'Unique identifier for each user';
+COMMENT ON COLUMN User.email IS 'User email address, must be unique';
+COMMENT ON COLUMN User.role IS 'User role: guest, host, or admin';
