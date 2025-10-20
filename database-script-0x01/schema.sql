@@ -100,3 +100,6 @@ CREATE TRIGGER trg_property_updated_at
     BEFORE UPDATE ON Property
     FOR EACH ROW
     EXECUTE FUNCTION update_property_updated_at();
+
+COMMENT ON TABLE Property IS 'Property listings created by hosts';
+COMMENT ON COLUMN Property.pricepernight IS 'Price per night in decimal format (must be positive)';
