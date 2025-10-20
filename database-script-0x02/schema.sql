@@ -10,10 +10,10 @@ DELETE FROM "User";
 
 INSERT INTO "User" (user_id, first_name, last_name, email, password_hash, phone_number, role, created_at) VALUES
 -- Admin
-('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Sarah', 'Admin', 'sarah.admin@airbnb.com', '$2b$10$rQ3Kj9Z3vX.jZqP5X5HqJeK3RzYzY3xY4xY5xY6xY7xY8xY9xYAxY', '+1-555-0100', 'admin', '2023-01-15 10:00:00'),
+('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'barbara', 'sackey', 'barbara.sackey@gmail.com', '$2b$10$rQ3Kj9Z3vX.jZqP5X5HqJeK3RzYzY3xY4xY5xY6xY7xY8xY9xYAxY', '+1-555-0100', 'admin', '2023-01-15 10:00:00'),
 
 -- Host
-('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 'John', 'Doe', 'john.doe@email.com', '$2b$10$rQ3Kj9Z3vX.jZqP5X5HqJeK3RzYzY3xY4xY5xY6xY7xY8xY9xYAxY', '+1-555-0101', 'host', '2023-02-10 09:30:00'),
+('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 'Jeffrey', 'Eshun', 'jeffrey.eshun@email.com', '$2b$10$rQ3Kj9Z3vX.jZqP5X5HqJeK3RzYzY3xY4xY5xY6xY7xY8xY9xYAxY', '+1-555-0101', 'host', '2023-02-10 09:30:00'),
 
 -- Guest
 ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a21', 'Alice', 'Williams', 'alice.w@email.com', '$2b$10$rQ3Kj9Z3vX.jZqP5X5HqJeK3RzYzY3xY4xY5xY6xY7xY8xY9xYAxY', '+1-555-0201', 'guest', '2023-04-01 08:00:00');
