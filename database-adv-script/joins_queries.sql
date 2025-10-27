@@ -205,4 +205,38 @@ GROUP BY
 ORDER BY 
     total_bookings DESC;
 
+SELECT 
+    b.booking_id,
+    b.start_date,
+    b.end_date,
+    b.total_price,
+    b.status,
+    -- Guest Information
+    guest.first_name AS guest_first_name,
+    guest.last_name AS guest_last_name,
+    guest.email AS guest_email,
+    -- Property Information
+    p.name AS property_name,
+    p.pricepernight,
+    -- Host Information
+    host.first_name AS host_first_name,
+    host.last_name AS host_last_name,
+    -- Location Information
+    l.city,
+    l.state,
+    l.country,
+    -- Payment Information
+    pay.amount AS payment_amount,
+    pay.payment_method,
+    pay.payment_date
+FROM 
+    Booking b
+INNER JOIN "User" guest ON b.user_id = guest.user_id
+INNER JOIN Property p ON b.property_id = p.property_id
+INNER JOIN "User" host ON p.host_id = host.user_id
+INNER JOIN Location l ON p.location_id = l.location_id
+LEFT JOIN Payment pay ON b.booking_id = pay.booking_id
+ORDER BY 
+    b.created_at DESC;
+
 
