@@ -41,4 +41,26 @@ ORDER BY
     b.created_at DESC;
 
 
+SELECT 
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    u.email,
+    COUNT(b.booking_id) AS total_bookings,
+    SUM(b.total_price) AS total_spent,
+    AVG(b.total_price) AS average_booking_price,
+    MIN(b.start_date) AS first_booking_date,
+    MAX(b.start_date) AS last_booking_date
+FROM 
+    "User" u
+INNER JOIN 
+    Booking b ON u.user_id = b.user_id
+GROUP BY 
+    u.user_id, u.first_name, u.last_name, u.email
+HAVING 
+    COUNT(b.booking_id) > 0
+ORDER BY 
+    total_bookings DESC;
+
+
 
