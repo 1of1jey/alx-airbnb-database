@@ -11,7 +11,7 @@ SELECT
 FROM 
     Booking b
 INNER JOIN 
-    "User" u ON b.user_id = u.user_id
+    "users" u ON b.user_id = u.user_id
 ORDER BY 
     b.created_at DESC;
 
@@ -34,7 +34,7 @@ SELECT
 FROM 
     Booking b
 INNER JOIN 
-    "User" u ON b.user_id = u.user_id
+    "users" u ON b.user_id = u.user_id
 INNER JOIN 
     Property p ON b.property_id = p.property_id
 ORDER BY 
@@ -52,7 +52,7 @@ SELECT
     MIN(b.start_date) AS first_booking_date,
     MAX(b.start_date) AS last_booking_date
 FROM 
-    "User" u
+    "users" u
 INNER JOIN 
     Booking b ON u.user_id = b.user_id
 GROUP BY 
@@ -95,7 +95,7 @@ FROM
 LEFT JOIN 
     Review r ON p.property_id = r.property_id
 LEFT JOIN 
-    "User" u ON r.user_id = u.user_id
+    "users" u ON r.user_id = u.user_id
 ORDER BY 
     p.property_id, r.created_at DESC;
 
@@ -135,7 +135,7 @@ FROM
 LEFT JOIN 
     Review r ON p.property_id = r.property_id
 LEFT JOIN 
-    "User" u ON p.host_id = u.user_id
+    "users" u ON p.host_id = u.user_id
 WHERE 
     r.review_id IS NULL
 ORDER BY 
@@ -154,7 +154,7 @@ SELECT
     b.status,
     b.created_at AS booking_date
 FROM 
-    "User" u
+    "users" u
 FULL OUTER JOIN 
     Booking b ON u.user_id = b.user_id
 ORDER BY 
@@ -177,7 +177,7 @@ SELECT
         ELSE 'Valid Booking'
     END AS record_type
 FROM 
-    "User" u
+    "users" u
 FULL OUTER JOIN 
     Booking b ON u.user_id = b.user_id
 WHERE 
@@ -197,7 +197,7 @@ SELECT
     COALESCE(AVG(b.total_price), 0) AS average_booking_price,
     MAX(b.start_date) AS last_booking_date
 FROM 
-    "User" u
+    "users" u
 FULL OUTER JOIN 
     Booking b ON u.user_id = b.user_id
 GROUP BY 
@@ -231,9 +231,9 @@ SELECT
     pay.payment_date
 FROM 
     Booking b
-INNER JOIN "User" guest ON b.user_id = guest.user_id
+INNER JOIN "users" guest ON b.user_id = guest.user_id
 INNER JOIN Property p ON b.property_id = p.property_id
-INNER JOIN "User" host ON p.host_id = host.user_id
+INNER JOIN "users" host ON p.host_id = host.user_id
 INNER JOIN Location l ON p.location_id = l.location_id
 LEFT JOIN Payment pay ON b.booking_id = pay.booking_id
 ORDER BY 
@@ -247,7 +247,7 @@ SELECT DISTINCT
     u.email,
     'Guest & Host' AS user_type
 FROM 
-    "User" u
+    "users" u
 INNER JOIN Booking b ON u.user_id = b.user_id
 INNER JOIN Property p ON u.user_id = p.host_id
 ORDER BY 
@@ -280,7 +280,7 @@ SELECT
     p.name AS property_name
 FROM 
     Booking b
-INNER JOIN "User" u ON b.user_id = u.user_id
+INNER JOIN "users" u ON b.user_id = u.user_id
 INNER JOIN Property p ON b.property_id = p.property_id;
 
 
