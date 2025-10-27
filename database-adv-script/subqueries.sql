@@ -40,3 +40,18 @@ WHERE
     )
 ORDER BY 
     average_rating DESC;
+
+SELECT 
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    u.email
+FROM 
+    "User" u
+WHERE 
+    u.user_id IN (
+        SELECT DISTINCT b.user_id
+        FROM Booking b
+    )
+ORDER BY 
+    u.first_name;
