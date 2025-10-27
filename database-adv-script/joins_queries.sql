@@ -161,4 +161,29 @@ ORDER BY
     u.user_id NULLS LAST, b.created_at DESC;
 
 
+SELECT 
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    u.email,
+    u.role,
+    b.booking_id,
+    b.start_date,
+    b.total_price,
+    b.status,
+    CASE 
+        WHEN u.user_id IS NULL THEN 'Orphaned Booking'
+        WHEN b.booking_id IS NULL THEN 'User Without Booking'
+        ELSE 'Valid Booking'
+    END AS record_type
+FROM 
+    "User" u
+FULL OUTER JOIN 
+    Booking b ON u.user_id = b.user_id
+WHERE 
+    u.user_id IS NULL OR b.booking_id IS NULL
+ORDER BY 
+    record_type, u.user_id NULLS LAST;
+
+
 
