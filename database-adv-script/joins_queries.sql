@@ -63,4 +63,20 @@ ORDER BY
     total_bookings DESC;
 
 
+SELECT 
+    p.property_id,
+    p.name AS property_name,
+    p.pricepernight,
+    r.review_id,
+    r.rating,
+    r.comment,
+    r.created_at AS review_date
+FROM 
+    Property p
+LEFT JOIN 
+    Review r ON p.property_id = r.property_id
+ORDER BY 
+    p.property_id, r.created_at DESC;
+
+
 
