@@ -254,3 +254,21 @@ ORDER BY
     u.first_name, u.last_name;
 
 
+SELECT 
+    p.property_id,
+    p.name AS property_name,
+    COUNT(DISTINCT b.user_id) AS unique_guests,
+    COUNT(b.booking_id) AS total_bookings,
+    AVG(r.rating) AS average_rating
+FROM 
+    Property p
+LEFT JOIN Booking b ON p.property_id = b.property_id
+LEFT JOIN Review r ON p.property_id = r.property_id
+GROUP BY 
+    p.property_id, p.name
+HAVING 
+    COUNT(b.booking_id) > 0
+ORDER BY 
+    total_bookings DESC, average_rating DESC NULLS LAST;
+
+
