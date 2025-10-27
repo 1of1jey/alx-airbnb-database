@@ -55,3 +55,18 @@ WHERE
     )
 ORDER BY 
     u.first_name;
+
+
+SELECT 
+    property_id,
+    name,
+    pricepernight
+FROM 
+    Property
+WHERE 
+    pricepernight > (
+        SELECT AVG(pricepernight)
+        FROM Property
+    )
+ORDER BY 
+    pricepernight DESC;
