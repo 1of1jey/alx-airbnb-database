@@ -123,4 +123,23 @@ ORDER BY
     average_rating DESC NULLS LAST, total_reviews DESC;
 
 
+SELECT 
+    p.property_id,
+    p.name AS property_name,
+    p.pricepernight,
+    p.created_at AS listed_date,
+    u.first_name AS host_first_name,
+    u.last_name AS host_last_name
+FROM 
+    Property p
+LEFT JOIN 
+    Review r ON p.property_id = r.property_id
+LEFT JOIN 
+    "User" u ON p.host_id = u.user_id
+WHERE 
+    r.review_id IS NULL
+ORDER BY 
+    p.created_at DESC;
+
+
 
