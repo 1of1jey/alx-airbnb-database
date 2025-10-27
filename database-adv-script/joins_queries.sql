@@ -272,3 +272,15 @@ ORDER BY
     total_bookings DESC, average_rating DESC NULLS LAST;
 
 
+EXPLAIN ANALYZE
+SELECT 
+    b.booking_id,
+    u.first_name,
+    u.last_name,
+    p.name AS property_name
+FROM 
+    Booking b
+INNER JOIN "User" u ON b.user_id = u.user_id
+INNER JOIN Property p ON b.property_id = p.property_id;
+
+
