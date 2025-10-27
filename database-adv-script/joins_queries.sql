@@ -280,7 +280,7 @@ SELECT
     p.name AS property_name
 FROM 
     Booking b
-INNER JOIN "rrsers" u ON b.user_id = u.user_id
+INNER JOIN "users" u ON b.user_id = u.user_id
 INNER JOIN Property p ON b.property_id = p.property_id;
 
 
