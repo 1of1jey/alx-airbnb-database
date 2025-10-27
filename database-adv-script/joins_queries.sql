@@ -99,5 +99,28 @@ LEFT JOIN
 ORDER BY 
     p.property_id, r.created_at DESC;
 
+SELECT 
+    p.property_id,
+    p.name AS property_name,
+    p.pricepernight,
+    COUNT(r.review_id) AS total_reviews,
+    AVG(r.rating) AS average_rating,
+    MAX(r.created_at) AS latest_review_date,
+    CASE 
+        WHEN COUNT(r.review_id) = 0 THEN 'No Reviews'
+        WHEN AVG(r.rating) >= 4.5 THEN 'Excellent'
+        WHEN AVG(r.rating) >= 4.0 THEN 'Very Good'
+        WHEN AVG(r.rating) >= 3.0 THEN 'Good'
+        ELSE 'Fair'
+    END AS rating_category
+FROM 
+    Property p
+LEFT JOIN 
+    Review r ON p.property_id = r.property_id
+GROUP BY 
+    p.property_id, p.name, p.pricepernight
+ORDER BY 
+    average_rating DESC NULLS LAST, total_reviews DESC;
+
 
 
