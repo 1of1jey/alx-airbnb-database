@@ -240,3 +240,17 @@ ORDER BY
     b.created_at DESC;
 
 
+SELECT DISTINCT
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    u.email,
+    'Guest & Host' AS user_type
+FROM 
+    "User" u
+INNER JOIN Booking b ON u.user_id = b.user_id
+INNER JOIN Property p ON u.user_id = p.host_id
+ORDER BY 
+    u.first_name, u.last_name;
+
+
