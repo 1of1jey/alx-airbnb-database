@@ -79,4 +79,25 @@ ORDER BY
     p.property_id, r.created_at DESC;
 
 
+SELECT 
+    p.property_id,
+    p.name AS property_name,
+    p.pricepernight,
+    r.review_id,
+    r.rating,
+    r.comment,
+    r.created_at AS review_date,
+    u.first_name AS reviewer_first_name,
+    u.last_name AS reviewer_last_name,
+    u.email AS reviewer_email
+FROM 
+    Property p
+LEFT JOIN 
+    Review r ON p.property_id = r.property_id
+LEFT JOIN 
+    "User" u ON r.user_id = u.user_id
+ORDER BY 
+    p.property_id, r.created_at DESC;
+
+
 
