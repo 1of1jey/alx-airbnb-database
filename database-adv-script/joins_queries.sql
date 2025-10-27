@@ -186,4 +186,23 @@ ORDER BY
     record_type, u.user_id NULLS LAST;
 
 
+SELECT 
+    COALESCE(u.user_id::TEXT, 'No User') AS user_id,
+    COALESCE(u.first_name, 'Unknown') AS first_name,
+    COALESCE(u.last_name, 'Unknown') AS last_name,
+    COALESCE(u.email, 'No Email') AS email,
+    u.role,
+    COUNT(b.booking_id) AS total_bookings,
+    COALESCE(SUM(b.total_price), 0) AS total_spent,
+    COALESCE(AVG(b.total_price), 0) AS average_booking_price,
+    MAX(b.start_date) AS last_booking_date
+FROM 
+    "User" u
+FULL OUTER JOIN 
+    Booking b ON u.user_id = b.user_id
+GROUP BY 
+    u.user_id, u.first_name, u.last_name, u.email, u.role
+ORDER BY 
+    total_bookings DESC;
+
 
