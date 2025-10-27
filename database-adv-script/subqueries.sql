@@ -1,3 +1,4 @@
+
 SELECT 
     p.property_id,
     p.name,
@@ -40,3 +41,20 @@ WHERE
     )
 ORDER BY 
     average_rating DESC;
+
+
+SELECT 
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    u.email
+FROM 
+    "User" u
+WHERE 
+    (
+        SELECT COUNT(b.booking_id)
+        FROM Booking b
+        WHERE b.user_id = u.user_id
+    ) > 3
+ORDER BY 
+    u.first_name;
