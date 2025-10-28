@@ -13,3 +13,10 @@ SELECT
 FROM bookings
 GROUP BY property_id
 ORDER BY property_rank;
+
+SELECT
+    property_id,
+    COUNT(*) AS total_bookings,
+    ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS property_row_number
+FROM bookings
+GROUP BY property_id;
